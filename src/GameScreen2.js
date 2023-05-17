@@ -1,4 +1,4 @@
-import { Button, Dimensions, ImageBackground, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,Image, Alert } from 'react-native'
+import { Button, Dimensions, ImageBackground, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,Image, Alert,BackHandler, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {Audio} from 'expo-av'
 
@@ -10,8 +10,8 @@ var dir=1
 var dir2=1
 var kon=1
 var c= parseInt(windowWidth/10);
-var end=parseInt(windowWidth/110+c*9)
-var start=parseInt(windowWidth/110)
+var end=parseInt(windowWidth/130+c*9)
+var start=parseInt(windowWidth/130)
 //var x=windowWidth/29
 //var y=windowWidth/29
 var SL=[   [start+c*3+6,start+c-12],[start+c*3+9,start+c-4],[start+c*3+13,start+c+10],
@@ -90,12 +90,11 @@ const GameScreen2 = () => {
  const [first, setfirst] = useState(1)
  const [diceimg, setdiceimg] = useState(1)
  const [chalo, setchalo] = useState(1)//setting to avoid touch while computer turn
- const [kiski, setkiski] = useState(1)// setting margin to computer
  
-// const [sound, setSound] = useState()
-// const [sound2, setSound2] = useState()
-// const [sound3, setSound3] = useState()
-// const [chalneyka, setChalneyka] = useState()
+ const [modalVisible, setModalVisible] = useState(true);
+ const [Win, Whowin] = useState('');
+ const [kiski, setkiski] = useState(1)
+
  var tem= p1X
  var tem2=p1Y
 
@@ -139,7 +138,26 @@ async function Chalneykasound(){
   await sound.playAsync();
 }
 
+useEffect(() => {
+  const backAction = () => {
+    Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+      {
+        text: 'Nahi',
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {text: 'HA JII', onPress: () => BackHandler.exitApp()},
+    ]);
+    return true;
+  };
 
+  const backHandler = BackHandler.addEventListener(
+    'hardwareBackPress',
+    backAction,
+  );
+
+  return () => backHandler.remove();
+}, []);
 
  function extra(r,o,m) {
   let late=100
@@ -249,18 +267,22 @@ async function Chalneykasound(){
                   i++
                   tem2+=c
 
-                            
-
-
+                  
                   }
                   
                   else{
                     tem-=c;
                     setp1X(tem)
                     i++
-                    console.log('fb')
+                    // console.log('fb')
 
-                     if(tem == start+c*7 &&  tem2 ==(start+c) && i==s ){
+                    if(tem == start &&  tem2 ==(start+c*9)){
+                      Whowin('RED WINS')
+                      setkiski(1)
+                      setModalVisible(true)
+                    }
+
+                    else if(tem == start+c*7 &&  tem2 ==(start+c) && i==s ){
                       // 13 ladder
                       
                       dir=1
@@ -374,7 +396,12 @@ async function Chalneykasound(){
                    tem3-=c;
                    setp1X2(tem3)
                    j++
-                   console.log('sb')
+                  //  console.log('sb')
+                  if(tem3 == start &&  tem4 ==(start+c*9)){
+                    Whowin('BLUE WINS')
+                    setkiski(0)
+                    setModalVisible(true)
+                  }
                     if(tem3 == start+c*7 &&  tem4 ==(start+c) && j==s ){
                      // 13 ladder
                    
@@ -421,31 +448,31 @@ async function Chalneykasound(){
  // console.log(s)
   setfirst(s)
 
-   var tdelay=200
+   var tdelay=250
   console.log(ko)
   
   for (var index = 1; index <= s; index++) {
   //  if(p1Y!=start+c*9 || tem-c*s >= start ){ 
    
-  Chalneykasound
+ 
   
   
    if(ko){
       if(p1Y!=start+c*9 || tem-c*s >= start ){
          setTimeout(() => {
            steps(s)
-          
+           Chalneykasound()
          }, tdelay);
-         tdelay+=200 
+         tdelay+=250 
         }
     }   
     else{
       if(p1Y2!=start+c*9 || tem3-c*s >= start ){
         setTimeout(() => {
           steps2(s)
-         
+          Chalneykasound()
         }, tdelay);
-        tdelay+=200 
+        tdelay+=250 
        }
     }        
   
@@ -458,7 +485,7 @@ async function Chalneykasound(){
 const delay = () => {
 
     var sr=Math.floor((Math.random() * 6) + 1);
-
+    Dicesound()
     setdiceimg(0)
     setchalo(0)
     
@@ -509,6 +536,23 @@ const delay = () => {
   return (
     <ImageBackground  style={{ height:'100%',width:'100%',}} source={require('../assets/forest4.png')}>
     <View style={styles.container}>
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+       <View style={styles.centeredView}>
+           <ImageBackground style={{ height:'70%',width:'70%',left:30}} source={require('../assets/dancing1.gif')}>
+            <Image style={{ height:'70%',width:'70%',}} source={require('../assets/celebration.gif')}></Image>
+           </ImageBackground>
+
+            <Text style={kiski?styles.Wincolour1:styles.Wincolour2} >WIN</Text>
+        </View>
+          </Modal>
      
       <Text>{first}</Text>
        <ImageBackground style={{width:windowWidth,height:windowWidth}} source={require('../assets/snake.jpg')}>
@@ -522,19 +566,19 @@ const delay = () => {
     </ImageBackground>     
 
 
-       <View style={{width:270}}>
+      
       <TouchableOpacity  onPress={()=>{chalo? delay():alert("wait for your turn");}}>
       <ImageBackground  style={styles.dice} source={(diceimg)?(dice[first-1]):(require('../assets/dicegif.gif'))}>
       </ImageBackground>
       </TouchableOpacity>
-      </View>
+     
 
 
      <View style={{width:'100%',justifyContent:'center',
      alignItems:'center',flexDirection:'row',}}>
 
       
-      <TouchableOpacity onPress={()=>{setp1X(start),setp1Y(start)}}  style={styles.reset}>
+      <TouchableOpacity onPress={()=>{setp1X(start),setp1Y(start),setp1X2(start),setp1Y2(start)}}  style={styles.reset}>
         <Text style={styles.resetText}>Reset</Text>
       </TouchableOpacity>
      
@@ -556,6 +600,17 @@ const styles = StyleSheet.create({
   // paddingVertical:30,
    
   },
+  centeredView: {
+   
+    justifyContent: 'center',
+    alignItems: 'center',
+   left:'15%',
+   top:'19%',
+   width:'70%',
+   height:'40%',
+   borderRadius:30,
+    backgroundColor:'#fff'
+  },
   player:{
     width:windowWidth/10,
     height:windowWidth/10,
@@ -564,17 +619,13 @@ const styles = StyleSheet.create({
     borderRadius:70,
    
   },
-  dicecontainer1:{
-  alignItems:'flex-end'
-  },
-  dicecontainer2:{
-   
-    },
+  
 
   dice: {
     width: 70,
     height: 70,
     borderRadius:20,
+    marginTop:20,
   },
   reset: {
     backgroundColor: 'blue',
@@ -587,6 +638,14 @@ const styles = StyleSheet.create({
   },resetText:{
     color: '#fff',
     fontWeight: 'bold',
+  },
+  Wincolour1:{
+    color: 'blue',
+    fontSize:20
+  },
+  Wincolour2:{
+    color: 'red',
+    fontSize:20
   },
 
 })

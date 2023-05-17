@@ -2,7 +2,7 @@ import { StyleSheet, Text, View,Animated,TouchableOpacity,ImageBackground,Image,
 import React, { useRef } from 'react'
 import {useFonts  } from 'expo-font'
 
-const HomeScreen = ({ navigation }) => {
+const PlayerScreen = ({ navigation }) => {
     const scaleValue = new Animated.Value(1);
     const scaleValue2 = new Animated.Value(1);
    
@@ -57,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
                      {/* for siquzze animaton */}
                  <Animated.View style={[styles.Animatedbutton,{ transform: [{ scale: scaleValue }]}]}>
                <Pressable 
-              onPress={() => navigation.navigate('player')}
+              onPress={() => navigation.navigate('game')}
              onPressIn={startPressIn}
               onPressOut={startPressOut}
 >
@@ -67,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
             style={{  width:150,
                 height:150, justifyContent:'center',alignItems:'center' }}
             >
-               <Text style={{fontFamily:'Satisfy',fontSize:40,color:'#3b1d03'}}>Start</Text>
+               <Text style={{fontFamily:'Satisfy',fontSize:40,color:'#3b1d03'}}>with robo</Text>
          
              </ImageBackground>
              </Pressable>
@@ -99,7 +99,7 @@ const HomeScreen = ({ navigation }) => {
 
                   <Animated.View style={{ transform: [{ scale: scaleValue2 }] }}>
                 <Pressable 
-        
+                  onPress={() => navigation.navigate('game2')}
                  onPressIn={exitPressIn}
                   onPressOut={exitPressOut}
 >        
@@ -109,7 +109,7 @@ const HomeScreen = ({ navigation }) => {
                    height:150, justifyContent:'center',alignItems:'center' }}
                   >
                   
-             <Text style={{fontFamily:'Satisfy',fontSize:40,color:'#3b1d03',fontWeight:'500'}}>Exit</Text>
+             <Text style={{fontFamily:'Satisfy',fontSize:40,color:'#3b1d03',fontWeight:'500'}}>with friend</Text>
                  
                 </ImageBackground>
               </Pressable>
@@ -140,7 +140,7 @@ const HomeScreen = ({ navigation }) => {
   )
 }
 
-export default HomeScreen
+export default PlayerScreen
 
 const styles = StyleSheet.create({
     Animatedbutton:{

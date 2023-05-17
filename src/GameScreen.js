@@ -1,4 +1,4 @@
-import { Button, Dimensions, ImageBackground, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,Image, Alert } from 'react-native'
+import { Button, Dimensions, ImageBackground, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,Image, Alert, BackHandler } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {Audio} from 'expo-av'
 
@@ -139,7 +139,26 @@ async function Chalneykasound(){
   await sound.playAsync();
 }
 
+useEffect(() => {
+  const backAction = () => {
+    Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+      {
+        text: 'Nahi',
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {text: 'HA JII', onPress: () => BackHandler.exitApp()},
+    ]);
+    return true;
+  };
 
+  const backHandler = BackHandler.addEventListener(
+    'hardwareBackPress',
+    backAction,
+  );
+
+  return () => backHandler.remove();
+}, []);
 
  function extra(r,o,m) {
   let late=100
@@ -508,12 +527,12 @@ if(se==1){v=2300}
  } 
 
  const dice = [
-  require('../assets/dice1.jpg'),
-  require('../assets/dice2.jpg'),
-  require('../assets/dice3.jpg'),
-  require('../assets/dice4.jpg'),
-  require('../assets/dice5.jpg'),
-  require('../assets/dice6.jpg')
+  require('../assets/dice1.png'),
+  require('../assets/dice2.png'),
+  require('../assets/dice3.png'),
+  require('../assets/dice4.png'),
+  require('../assets/dice5.png'),
+  require('../assets/dice6.png')
 ]
 
 // useEffect(() => {
@@ -535,8 +554,8 @@ if(se==1){v=2300}
        
         
        
-        <ImageBackground  style={[styles.player,{bottom:p1Y,left:p1X,backgroundColor:'blue'}]} source={require('../assets/player1/token3.gif')} ></ImageBackground>
-        <ImageBackground  style={[styles.player,{bottom:p1Y2,left:p1X2,backgroundColor:'red'}]} source={require('../assets/player2/token4.webp')} ></ImageBackground>
+        <ImageBackground  style={[styles.player,{bottom:p1Y,left:p1X,backgroundColor:'#000'}]} source={require('../assets/player1/token3.gif')} ></ImageBackground>
+        <ImageBackground  style={[styles.player,{bottom:p1Y2,left:p1X2,backgroundColor:'#fff'}]} source={require('../assets/player2/token4.webp')} ></ImageBackground>
         
 
     </ImageBackground>     
