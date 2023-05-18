@@ -67,7 +67,7 @@ const PlayerScreen = ({ navigation }) => {
             style={{  width:150,
                 height:150, justifyContent:'center',alignItems:'center' }}
             >
-               <Text style={{fontFamily:'Satisfy',fontSize:40,color:'#3b1d03'}}>with robo</Text>
+               <Text style={{fontFamily:'Satisfy',fontSize:20,color:'#3b1d03'}}>with robo</Text>
          
              </ImageBackground>
              </Pressable>
@@ -109,7 +109,7 @@ const PlayerScreen = ({ navigation }) => {
                    height:150, justifyContent:'center',alignItems:'center' }}
                   >
                   
-             <Text style={{fontFamily:'Satisfy',fontSize:40,color:'#3b1d03',fontWeight:'500'}}>with friend</Text>
+             <Text style={{fontFamily:'Satisfy',fontSize:20,color:'#3b1d03',fontWeight:'500'}}>with friend</Text>
                  
                 </ImageBackground>
               </Pressable>
