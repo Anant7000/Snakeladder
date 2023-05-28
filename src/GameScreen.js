@@ -80,7 +80,7 @@ var SL=[   [start+c*3+6,start+c-12],[start+c*3+9,start+c-4],[start+c*3+13,start+
     ]
  
  
-const GameScreen = () => {
+const GameScreen = ({ navigation }) => {
   
   const [p1X, setp1X] = useState(start)
   const [p1Y, setp1Y] = useState(start) 
@@ -660,11 +660,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   Wincolour1:{
-    color: 'blue',
+   
     fontSize:20
   },
   Wincolour2:{
-    color: 'red',
+   
     fontSize:20
   },
 
