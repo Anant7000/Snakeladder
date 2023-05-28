@@ -80,7 +80,7 @@ var SL=[   [start+c*3+6,start+c-12],[start+c*3+9,start+c-4],[start+c*3+13,start+
     ]
  
  
-const GameScreen2 = () => {
+const GameScreen2 = ({ navigation }) => {
   
   const [p1X, setp1X] = useState(start)
   const [p1Y, setp1Y] = useState(start) 
@@ -91,7 +91,7 @@ const GameScreen2 = () => {
  const [diceimg, setdiceimg] = useState(1)
  const [chalo, setchalo] = useState(1)//setting to avoid touch while computer turn
  
- const [modalVisible, setModalVisible] = useState(true);
+ const [modalVisible, setModalVisible] = useState(false);
  const [Win, Whowin] = useState('');
  const [kiski, setkiski] = useState(1)
 
@@ -515,12 +515,12 @@ const delay = () => {
 
 
  const dice = [
-  require('../assets/dice1.jpg'),
-  require('../assets/dice2.jpg'),
-  require('../assets/dice3.jpg'),
-  require('../assets/dice4.jpg'),
-  require('../assets/dice5.jpg'),
-  require('../assets/dice6.jpg')
+  require('../assets/dice1.png'),
+  require('../assets/dice2.png'),
+  require('../assets/dice3.png'),
+  require('../assets/dice4.png'),
+  require('../assets/dice5.png'),
+  require('../assets/dice6.png')
 ]
 
 // useEffect(() => {
@@ -542,15 +542,16 @@ const delay = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+        
           setModalVisible(!modalVisible);
+          navigation.navigate('Home')
         }}>
        <View style={styles.centeredView}>
            <ImageBackground style={{ height:'70%',width:'70%',left:30}} source={require('../assets/dancing1.gif')}>
             <Image style={{ height:'70%',width:'70%',}} source={require('../assets/celebration.gif')}></Image>
            </ImageBackground>
 
-            <Text style={kiski?styles.Wincolour1:styles.Wincolour2} >WIN</Text>
+            <Text style={kiski?styles.Wincolour1:styles.Wincolour2} >{Win}</Text>
         </View>
           </Modal>
      

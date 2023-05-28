@@ -67,7 +67,7 @@ const PlayerScreen = ({ navigation }) => {
             style={{  width:150,
                 height:150, justifyContent:'center',alignItems:'center' }}
             >
-               <Text style={{fontFamily:'Satisfy',fontSize:20,color:'#3b1d03'}}>with robo</Text>
+               <Text style={{fontSize:23,color:'#fff'}}>with Robo</Text>
          
              </ImageBackground>
              </Pressable>
@@ -109,7 +109,7 @@ const PlayerScreen = ({ navigation }) => {
                    height:150, justifyContent:'center',alignItems:'center' }}
                   >
                   
-             <Text style={{fontFamily:'Satisfy',fontSize:20,color:'#3b1d03',fontWeight:'500'}}>with friend</Text>
+             <Text style={{fontSize:23,color:'#fff',fontWeight:'500'}}>with friend</Text>
                  
                 </ImageBackground>
               </Pressable>
@@ -131,7 +131,7 @@ const PlayerScreen = ({ navigation }) => {
   
     return (
       <View style={{ flex: 1,  alignItems: 'center',backgroundColor:'#fff' }}>
-        <ImageBackground   style={{ height:'100%',width:'100%',alignItems:'center'}} source={require('../assets/forest2.jpg')}>
+        <ImageBackground   style={{ height:'100%',width:'100%',alignItems:'center'}} source={require('../assets/foresthai-transformed.jpeg')}>
        <ExitdropAnimation />
        <StartdropAnimation />
        </ImageBackground>

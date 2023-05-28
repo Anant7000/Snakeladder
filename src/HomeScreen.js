@@ -131,7 +131,7 @@ const HomeScreen = ({ navigation }) => {
   
     return (
       <View style={{ flex: 1,  alignItems: 'center',backgroundColor:'#fff' }}>
-        <ImageBackground   style={{ height:'100%',width:'100%',alignItems:'center'}} source={require('../assets/forest2.jpg')}>
+        <ImageBackground   style={{ height:'100%',width:'100%',alignItems:'center'}} source={require('../assets/foresthai-transformed.jpeg')}>
        <ExitdropAnimation />
        <StartdropAnimation />
        </ImageBackground>

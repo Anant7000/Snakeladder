@@ -1,4 +1,4 @@
-import { Button, Dimensions, ImageBackground, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,Image, Alert, BackHandler } from 'react-native'
+import { Button, Dimensions, ImageBackground, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,Image, Alert, BackHandler, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {Audio} from 'expo-av'
 
@@ -91,7 +91,9 @@ const GameScreen = () => {
  const [diceimg, setdiceimg] = useState(1)
  const [chalo, setchalo] = useState(1)//setting to avoid touch while computer turn
  const [kiski, setkiski] = useState(1)// setting margin to computer
- 
+ const [modalVisible, setModalVisible] = useState(false);
+ const [Win, Whowin] = useState('');
+ const [k, setk] = useState(1)
 // const [sound, setSound] = useState()
 // const [sound2, setSound2] = useState()
 // const [sound3, setSound3] = useState()
@@ -131,11 +133,10 @@ async function Dicesound(){
   await sound.playAsync();
 }
 async function Chalneykasound(){
-  console.log('Loading Sound');
+ 
   const { sound } = await Audio.Sound.createAsync( require('../assets/magicstep.wav') );
   //setChalneyka(sound);
 
-  console.log('Playing Sound');
   await sound.playAsync();
 }
 
@@ -278,8 +279,13 @@ useEffect(() => {
                     setp1X(tem)
                     i++
                     console.log('fb')
-
-                     if(tem == start+c*7 &&  tem2 ==(start+c) && i==s ){
+                     
+                    if(tem == start &&  tem2 ==(start+c*9)){
+                      Whowin('YOU WINS')
+                      setk(1)
+                      setModalVisible(true)
+                    }
+                    else if(tem == start+c*7 &&  tem2 ==(start+c) && i==s ){
                       // 13 ladder
                       
                       dir=1
@@ -394,7 +400,13 @@ useEffect(() => {
                    setp1X2(tem3)
                    j++
                    console.log('sb')
-                    if(tem3 == start+c*7 &&  tem4 ==(start+c) && j==s ){
+
+                   if(tem3 == start &&  tem4 ==(start+c*9)){
+                    Whowin('ROBO WINS')
+                    setk(0)
+                    setModalVisible(true)
+                  }
+                  else  if(tem3 == start+c*7 &&  tem4 ==(start+c) && j==s ){
                      // 13 ladder
                    
                      dir2=1
@@ -447,14 +459,14 @@ useEffect(() => {
   for (var index = 1; index <= s; index++) {
   //  if(p1Y!=start+c*9 || tem-c*s >= start ){ 
    
-  Chalneykasound
   
   
    if(ko){
       if(p1Y!=start+c*9 || tem-c*s >= start ){
          setTimeout(() => {
            steps(s,1)
-          
+           Chalneykasound()
+  
          }, tdelay);
          tdelay+=200 
         }
@@ -463,7 +475,8 @@ useEffect(() => {
       if(p1Y2!=start+c*9 || tem3-c*s >= start ){
         setTimeout(() => {
           steps2(s)
-         
+          Chalneykasound()
+  
         }, tdelay);
         tdelay+=200 
        }
@@ -549,6 +562,25 @@ if(se==1){v=2300}
     <ImageBackground  style={{ height:'100%',width:'100%',}} source={require('../assets/forest4.png')}>
     <View style={styles.container}>
      
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+        
+          setModalVisible(!modalVisible);
+          navigation.navigate('Home')
+        }}>
+       <View style={styles.centeredView}>
+           <ImageBackground style={{ height:'70%',width:'70%',left:30}} source={require('../assets/dancing1.gif')}>
+            <Image style={{ height:'70%',width:'70%',}} source={require('../assets/celebration.gif')}></Image>
+           </ImageBackground>
+
+            <Text style={k?styles.Wincolour1:styles.Wincolour2} >{Win}</Text>
+        </View>
+          </Modal>
+
+
       <Text>{first}</Text>
        <ImageBackground style={{width:windowWidth,height:windowWidth}} source={require('../assets/snake.jpg')}>
        
@@ -626,6 +658,14 @@ const styles = StyleSheet.create({
   },resetText:{
     color: '#fff',
     fontWeight: 'bold',
+  },
+  Wincolour1:{
+    color: 'blue',
+    fontSize:20
+  },
+  Wincolour2:{
+    color: 'red',
+    fontSize:20
   },
 
 })
