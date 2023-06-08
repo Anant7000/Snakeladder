@@ -1,6 +1,8 @@
 import { Button, Dimensions, ImageBackground, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,Image, Alert, BackHandler, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {Audio} from 'expo-av'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -94,10 +96,7 @@ const GameScreen = ({ navigation }) => {
  const [modalVisible, setModalVisible] = useState(false);
  const [Win, Whowin] = useState('');
  const [k, setk] = useState(1)
-// const [sound, setSound] = useState()
-// const [sound2, setSound2] = useState()
-// const [sound3, setSound3] = useState()
-// const [chalneyka, setChalneyka] = useState()
+
  var tem= p1X
  var tem2=p1Y
 
@@ -582,18 +581,18 @@ if(se==1){v=2300}
 
 
       <Text>{first}</Text>
-       <ImageBackground style={{width:windowWidth,height:windowWidth}} source={require('../assets/snake.jpg')}>
+       <ImageBackground style={{width:windowWidth,height:windowWidth,bottom:40}} source={require('../assets/snake.jpg')}>
        
         
        
         <ImageBackground  style={[styles.player,{bottom:p1Y,left:p1X,backgroundColor:'#000'}]} source={require('../assets/player1/token3.gif')} ></ImageBackground>
-        <ImageBackground  style={[styles.player,{bottom:p1Y2,left:p1X2,backgroundColor:'#fff'}]} source={require('../assets/player2/token4.webp')} ></ImageBackground>
+        <ImageBackground  style={[styles.player,{bottom:p1Y2,left:p1X2,backgroundColor:'#fff'}]} source={require('../assets/robo.gif')} ></ImageBackground>
         
 
     </ImageBackground>     
 
 
-       <View style={{width:270}}>
+       <View style={{width:270,bottom:20}}>
       <TouchableOpacity style={kiski?styles.dicecontainer2:styles.dicecontainer1} onPress={()=>{chalo? delay():alert("wait for your turn");}}>
       <ImageBackground  style={styles.dice} source={(diceimg)?(dice[first-1]):(require('../assets/dicegif.gif'))}>
       </ImageBackground>
@@ -602,7 +601,7 @@ if(se==1){v=2300}
 
 
      <View style={{width:'100%',justifyContent:'center',
-     alignItems:'center',flexDirection:'row',}}>
+     alignItems:'center',flexDirection:'row',bottom:20}}>
 
       <Image source={require('../assets/human.webp')} style={{width:50,height:50,marginRight:30}}></Image>
       <TouchableOpacity onPress={()=>{setp1X(start),setp1Y(start)}}  style={styles.reset}>
@@ -611,7 +610,13 @@ if(se==1){v=2300}
       <Image source={require('../assets/robo.gif')}  style={{width:50,height:50,marginLeft:30}}></Image>
      </View>
 
+
+    
+
    </View>
+
+   
+
    </ImageBackground>
   )
 }
@@ -626,6 +631,17 @@ const styles = StyleSheet.create({
   
   // paddingVertical:30,
    
+  },
+  centeredView: {
+   
+    justifyContent: 'center',
+    alignItems: 'center',
+   left:'15%',
+   top:'19%',
+   width:'70%',
+   height:'40%',
+   borderRadius:30,
+    backgroundColor:'#fff'
   },
   player:{
     width:windowWidth/10,

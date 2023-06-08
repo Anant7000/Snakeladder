@@ -2,6 +2,7 @@ import { StyleSheet, Text, View,Animated,TouchableOpacity,ImageBackground,Image,
 import React, { useRef } from 'react'
 import {useFonts  } from 'expo-font'
 
+
 const PlayerScreen = ({ navigation }) => {
     const scaleValue = new Animated.Value(1);
     const scaleValue2 = new Animated.Value(1);
@@ -65,9 +66,10 @@ const PlayerScreen = ({ navigation }) => {
        
             source={require('../assets/wooden.png')}
             style={{  width:150,
-                height:150, justifyContent:'center',alignItems:'center' }}
+                height:150, justifyContent:'center',alignItems:'center',flexDirection:'row' }}
             >
-               <Text style={{fontSize:23,color:'#fff'}}>with Robo</Text>
+               <Text style={{fontSize:23,color:'#fff',fontWeight:'500'}}>Robo</Text>
+               <Image  source={require('../assets/robo.gif')} style={{height:50,width:50}}></Image>
          
              </ImageBackground>
              </Pressable>
@@ -106,11 +108,12 @@ const PlayerScreen = ({ navigation }) => {
                 <ImageBackground
               source={require('../assets/wooden.png')}
                 style={{  width:150,
-                   height:150, justifyContent:'center',alignItems:'center' }}
+                   height:150, justifyContent:'center',alignItems:'center' ,flexDirection:'row'}}
                   >
                   
-             <Text style={{fontSize:23,color:'#fff',fontWeight:'500'}}>with friend</Text>
-                 
+                  <Text style={{fontSize:23,color:'#fff',fontWeight:'500'}}>Friend</Text>
+                  <Image  source={require('../assets/human.webp')} style={{height:50,width:50}}></Image>
+         
                 </ImageBackground>
               </Pressable>
                 </Animated.View>

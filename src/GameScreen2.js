@@ -1,7 +1,8 @@
-import { Button, Dimensions, ImageBackground, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,Image, Alert,BackHandler, Modal } from 'react-native'
+import { Button, Dimensions, ImageBackground, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View,Image, Alert,BackHandler, Modal, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {Audio} from 'expo-av'
-
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 
 
 const windowWidth = Dimensions.get('screen').width;
@@ -92,9 +93,12 @@ const GameScreen2 = ({ navigation }) => {
  const [chalo, setchalo] = useState(1)//setting to avoid touch while computer turn
  
  const [modalVisible, setModalVisible] = useState(false);
- const [Win, Whowin] = useState('');
- const [kiski, setkiski] = useState(1)
-
+ const [Win, Whowin] = useState('');//use for modal
+ const [kiski, setkiski] = useState(1)//use for colour of modal text
+ const [isOpen, setIsOpen] = useState(false);
+ const [isOpen2, setIsOpen2] = useState(false);
+  const [T1, setT1] = useState(2)
+  const [T2, setT2] = useState(2)
  var tem= p1X
  var tem2=p1Y
 
@@ -104,6 +108,16 @@ const GameScreen2 = ({ navigation }) => {
  var i=0
  var j=0
  
+ const handleSelectOption = (option) => {
+  setT1(option);
+  setIsOpen(false);
+};
+
+const handleSelectOption2 = (option) => {
+  setT2(option);
+  setIsOpen2(false);
+};
+
 
  async function Snakesound(){
   console.log('Loading Sound');
@@ -130,11 +144,11 @@ async function Dicesound(){
   await sound.playAsync();
 }
 async function Chalneykasound(){
-  console.log('Loading Sound');
+ 
   const { sound } = await Audio.Sound.createAsync( require('../assets/magicstep.wav') );
   //setChalneyka(sound);
 
-  console.log('Playing Sound');
+ 
   await sound.playAsync();
 }
 
@@ -523,6 +537,33 @@ const delay = () => {
   require('../assets/dice6.png')
 ]
 
+const token = [
+  require('../assets/player/token1.gif'),
+  require('../assets/player/token10.webp'),
+  require('../assets/player/token11.webp'),
+  require('../assets/player/token2.gif'),
+  require('../assets/player/token3.gif'),
+  require('../assets/player/token4.webp'),
+  require('../assets/player/token5.gif'),
+  require('../assets/player/token6.webp'),
+  require('../assets/player/token7.gif'),
+  require('../assets/player/token8.gif'),
+]
+
+
+const options = [
+  { id: 1, label: 0 },
+  { id: 2, label: 1 },
+  { id: 3, label:  2},
+  { id: 4, label: 3 },
+  { id: 5, label: 4 },
+  { id: 6, label: 5},
+  { id: 7, label: 6 },
+  { id: 8, label:  7},
+  { id: 9, label: 8 },
+  { id: 10, label: 9 },
+  
+];
 // useEffect(() => {
 //   return chalneyka
 //   ? () => {
@@ -560,8 +601,8 @@ const delay = () => {
        
         
        
-        <ImageBackground  style={[styles.player,{bottom:p1Y,left:p1X,backgroundColor:'blue'}]} source={require('../assets/player1/token3.gif')} ></ImageBackground>
-        <ImageBackground  style={[styles.player,{bottom:p1Y2,left:p1X2,backgroundColor:'red'}]} source={require('../assets/player2/token4.webp')} ></ImageBackground>
+        <ImageBackground  style={[styles.player,{bottom:p1Y,left:p1X,backgroundColor:'blue'}]} source={token[T1]} ></ImageBackground>
+        <ImageBackground  style={[styles.player,{bottom:p1Y2,left:p1X2,backgroundColor:'red'}]} source={token[T2]} ></ImageBackground>
         
 
     </ImageBackground>     
@@ -583,6 +624,51 @@ const delay = () => {
         <Text style={styles.resetText}>Reset</Text>
       </TouchableOpacity>
      
+     </View>
+
+{/* //emoji selectin view */}
+
+     <View style={{width:'100%',height:100}}>
+         <View style={{width:'100%',height:50,alignItems:'center',flexDirection:'row'}}>
+            <Pressable onPress={() => {setIsOpen(!isOpen)}} style={{padding:20,}}>
+            <FontAwesomeIcon size={30} style={{}} icon={faFaceSmile}></FontAwesomeIcon>  
+            </Pressable>
+            
+             {isOpen && (
+                    <FlatList
+                   
+                      data={options}
+                      keyExtractor={(item) => item.id.toString()}
+                      renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => handleSelectOption(item.label)}>
+                           <Image style={{width:50,height:50}} source={token[item.label]} ></Image>
+                        </TouchableOpacity>
+                      )}
+                      horizontal
+                    />
+                  )}
+         </View >
+         
+         <View style={{width:'100%',height:50,alignItems:'center',flexDirection:'row'}}>
+         <Pressable onPress={() => {setIsOpen2(!isOpen2)}} style={{padding:20,}}>
+            <FontAwesomeIcon size={30} style={{}} icon={faFaceSmile}></FontAwesomeIcon>  
+            </Pressable>
+            
+             {isOpen2 && (
+                    <FlatList
+                   
+                      data={options}
+                      keyExtractor={(item) => item.id.toString()}
+                      renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => handleSelectOption2(item.label)}>
+                           <Image style={{width:50,height:50}} source={token[item.label]} ></Image>
+                        </TouchableOpacity>
+                      )}
+                      horizontal
+                    />
+                  )}
+          
+         </View>
      </View>
 
    </View>
